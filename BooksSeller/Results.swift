@@ -11,40 +11,11 @@ For support, please feel free to contact me at https://www.linkedin.com/in/syeda
 
 */
 
-import SwiftUI
-
-struct BuyLinks: View {
-    @State var buyLinks = [BYLinks]()
-    @ObservedObject var api = Api()
-    var body: some View {
-       
-        NavigationStack{
-            List(api.buyLinks, id:\.self){links in
-                
-                
-                Link(links.name,destination: URL(string: links.url)!)
-                
-                
-                
-                
-                
-            }
-            .task {
-                await api.loadData()
-                
-            }
-         
-            
-            
-        }
-}
-        
-}
-struct BuyLinks_Previews: PreviewProvider {
-    static var previews: some View {
-        BuyLinks()
-    }
-}
-
-
-
+//import Foundation
+//struct Result : Codable {
+//
+//	let lists : [Lists]
+//
+//
+//}
+//

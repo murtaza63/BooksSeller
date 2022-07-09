@@ -30,7 +30,7 @@ struct Results: Codable{
         case lists
     }
 }
-struct Lists: Codable, Comparable{
+struct Lists: Codable, Comparable, Hashable{
     let listId: Int
     let listName: String
     let books: [Book]

@@ -14,7 +14,9 @@ struct ContentView: View {
     let timer  = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
    
     var body: some View {
+       
         ZStack{
+            
             if progress < total {
           
             
@@ -27,8 +29,8 @@ struct ContentView: View {
          
            
         }else{
-            
-        ListView()
+            Text("Hello Readers")
+       ListView()
         }
         }
     }

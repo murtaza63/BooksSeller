@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct BooksDetail: View {
-    @State var booksDetails = [Book]()
+  @ObservedObject var api = Api()
+  
     var body: some View {
        
         NavigationView{
             
-            List(booksDetails, id:\.self){book in
+            List(api.myBooks, id:\.self){book in
                 NavigationLink(destination: BuyLinks()){
                 HStack(alignment: .lastTextBaseline) {
                     VStack(alignment: .leading){
@@ -26,9 +27,15 @@ struct BooksDetail: View {
                      
                     }.padding(.bottom, 50)
                     Group{
-                        Image(systemName: "Person.fill").resizable()
-                        .data(url: URL(string: book.bookImage)!)
-                    }.frame(width: 100, height: 200)
+                        AsyncImage(url:URL(string: book.bookImage)){ image in
+                            image.resizable()
+                        }placeholder: {
+                            ProgressView()
+                        }
+                            
+//                        Image(systemName: "Person.fill").resizable()
+//                        .data(url: URL(string: book.bookImage)!)
+                    }.padding(.top, 50)//.frame(width: 100, height: 200)
                 }.frame(width: 350, height: 300)
                     .background(.blue)
                     .foregroundColor(.white)
@@ -38,7 +45,7 @@ struct BooksDetail: View {
             }
             
             .task {
-            await loadData()
+                await api.loadData()
             
             }
         }
@@ -47,28 +54,7 @@ struct BooksDetail: View {
                
     
 }
-    func loadData()async {
-         guard let url = URL(string: "https://api.nytimes.com/svc/books/v3/lists/full-overview.json?api-key=CgKtenC5a62LH7yhpdUCGj32mNHbjNKm") else {
-             print("Invalid Url")
-             return
-         }
-
-         do {
-             let (data, _) = try await URLSession.shared.data(from: url)
-
-             if let decodeResponse = try? JSONDecoder().decode(Response.self, from: data){
-                 booksDetails = decodeResponse.results.lists[0].books
-
-                 print(booksDetails)
-
-             }
-
-
-         }catch {
-             print("Invalid data")
-         }
-
-     }
+  
     
 }
 struct BooksDetail_Previews: PreviewProvider {

@@ -10,7 +10,9 @@ import SwiftUI
 
 @MainActor
 class Api: ObservableObject {
- @Published var lists = [Lists]()
+ @Published var myBooks = [Book]()
+@Published var lists = [Lists]()
+ @Published var buyLinks = [BYLinks]()
    
     
    
@@ -25,8 +27,9 @@ class Api: ObservableObject {
 
              if let decodeResponse = try? JSONDecoder().decode(Response.self, from: data){
                  lists = decodeResponse.results.lists
-                
-                 print(lists)
+                 myBooks = lists[0].books
+                 buyLinks = myBooks[0].buyLinks
+                 print("Bookst details hear", myBooks)
 
              }
              
